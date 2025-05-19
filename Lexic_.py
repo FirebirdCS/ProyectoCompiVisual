@@ -26,7 +26,7 @@ reserved = {
     'Entonces':  'ENTONCES',
     'Verdadero': 'VERDADERO',
     'Falso':     'FALSO',
-    'No':        'SINO'
+    'Sino':        'SINO'
 }
 
 
@@ -79,7 +79,7 @@ def t_COMMENT(t):
 
 # Captura errores
 def t_error(t):
-    print(f"Error léxico: caracter inesperado '{t.value[0]}' en línea {t.lexer.lineno}")
+    print(f"Error léxico: carácter inesperado '{t.value[0]}' en línea {t.lineno}")
     t.lexer.skip(1)
 
 lexer = lex.lex()
