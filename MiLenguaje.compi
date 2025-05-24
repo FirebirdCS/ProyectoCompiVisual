@@ -1,0 +1,21 @@
+Algoritmo Prueba
+    Definir a,b,c,d Entero
+    Inicio
+        Escribir ("Hola")
+        a = 1
+        b = a + 3
+        c = b
+        Mientras Verdadero
+            Si c > a Entonces
+                d = 8
+                Escribir ("El valor de d es: ", d)
+            Si No
+                Si a > c Entonces
+                    d = 5
+                    Escribir ("El valor de d es: ", d)
+            Si No
+                d = c
+                Escribir ("El valor de d es: ", d)
+        Fin Mientras
+    Fin
+Fin Algoritmo
