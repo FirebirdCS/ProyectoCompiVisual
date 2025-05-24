@@ -5,6 +5,7 @@ import io
 import sys
 from Lexic_ import lexer
 from Buffer import Buffer
+import subprocess
 
 class LexicalGUI(tk.Tk):
     def __init__(self):
@@ -44,6 +45,9 @@ class LexicalGUI(tk.Tk):
 
         open_btn = ttk.Button(self, text="Abrir Archivo", command=self.open_file)
         open_btn.pack(side=tk.BOTTOM, pady=10)
+
+        btn_semantico = ttk.Button(self, text="Ejecutar Semántico", command=lambda: self.run_semantico())
+        btn_semantico.pack(pady=10)
 
     def open_file(self):
         file_path = filedialog.askopenfilename(
@@ -100,7 +104,6 @@ class LexicalGUI(tk.Tk):
                     "Se encontraron errores durante el análisis léxico. "
                     "Presiona 'Ver Errores' para más detalles."
                 )
-                return
 
             messagebox.showinfo("Listo", "Análisis léxico completado sin errores.")
 
@@ -120,6 +123,25 @@ class LexicalGUI(tk.Tk):
             for err in self.errors:
                 listbox.insert(tk.END, err)
             listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    def ssintax(self):
+        # Aquí se puede implementar el análisis sintáctico y semántico
+        win = tk.Toplevel(self)
+        win.title("Análisis Semántico")
+        win.geometry("400x300")
+        lbl = ttk.Label(win, text="Funcionalidad de análisis semántico aún no implementada.")
+        lbl.pack(padx=10, pady=10)
+
+    def run_semantico(self):
+        try:
+            result = subprocess.run(
+                ["python3", "Semantico.py"],
+                capture_output=True, text=True, check=True
+            )
+            output = result.stdout if result.stdout else "Ejecución completada sin salida."
+            messagebox.showinfo("Resultado Semántico", output)
+        except subprocess.CalledProcessError as e:
+            messagebox.showerror("Error Semántico", f"Error al ejecutar Semantico.py:\n{e.stderr or e}")
 
 if __name__ == "__main__":
     app = LexicalGUI()
