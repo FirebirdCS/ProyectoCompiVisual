@@ -1,0 +1,2651 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> ALGORITMO ID bloque FIN ALGORITMO
+Rule 2     bloque -> declaraciones INICIO instrucciones FIN
+Rule 3     declaraciones -> DEFINIR lista_ids tipo
+Rule 4     declaraciones -> declaraciones DEFINIR lista_ids tipo
+Rule 5     lista_ids -> ID
+Rule 6     lista_ids -> lista_ids COMA ID
+Rule 7     tipo -> ENTERO
+Rule 8     instrucciones -> instruccion
+Rule 9     instrucciones -> instrucciones instruccion
+Rule 10    instruccion -> escritura
+Rule 11    instruccion -> asignacion
+Rule 12    instruccion -> mientras
+Rule 13    instruccion -> si
+Rule 14    asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA
+Rule 15    asignacion -> ID ASIGNAR expresion
+Rule 16    escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+Rule 17    escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+Rule 18    lista_expr -> expresion
+Rule 19    lista_expr -> lista_expr COMA expresion
+Rule 20    expresion -> NUMERO
+Rule 21    expresion -> FLOTANTE
+Rule 22    expresion -> CADENA
+Rule 23    expresion -> VERDADERO
+Rule 24    expresion -> FALSO
+Rule 25    expresion -> ID
+Rule 26    expresion -> expresion MAS expresion
+Rule 27    expresion -> expresion MENOS expresion
+Rule 28    expresion -> expresion POR expresion
+Rule 29    expresion -> expresion DIVIDIDO expresion
+Rule 30    expresion -> expresion MODULO expresion
+Rule 31    expresion -> expresion IGUAL expresion
+Rule 32    expresion -> expresion DIFERENTE expresion
+Rule 33    expresion -> expresion MENOR expresion
+Rule 34    expresion -> expresion MAYOR expresion
+Rule 35    expresion -> expresion MENOR_IGUAL expresion
+Rule 36    expresion -> expresion MAYOR_IGUAL expresion
+Rule 37    expresion -> expresion Y expresion
+Rule 38    expresion -> expresion O expresion
+Rule 39    expresion -> NEG expresion
+Rule 40    expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+Rule 41    mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS
+Rule 42    si -> SI expresion ENTONCES instrucciones sino_opcional
+Rule 43    sino_opcional -> SINO si
+Rule 44    sino_opcional -> SINO instrucciones
+Rule 45    sino_opcional -> empty
+Rule 46    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ALGORITMO            : 1 1
+ASIGNAR              : 14 15
+CADENA               : 22
+COMA                 : 6 19
+DEFINIR              : 3 4
+DIFERENTE            : 32
+DIVIDIDO             : 29
+ENTERO               : 7
+ENTONCES             : 42
+ESCRIBIR             : 16 17
+FALSO                : 24
+FIN                  : 1 2 41
+FLOTANTE             : 21
+ID                   : 1 5 6 14 15 25
+IGUAL                : 31
+INICIO               : 2
+MAS                  : 26
+MAYOR                : 34
+MAYOR_IGUAL          : 36
+MENOR                : 33
+MENOR_IGUAL          : 35
+MENOS                : 27
+MIENTRAS             : 41 41
+MODULO               : 30
+NEG                  : 39
+NUMERO               : 20
+O                    : 38
+PARENTESIS_DERECHO   : 16 17 40
+PARENTESIS_IZQUIERDO : 16 17 40
+POR                  : 28
+PUNTO_Y_COMA         : 14 16
+SI                   : 42
+SINO                 : 43 44
+VERDADERO            : 23
+Y                    : 37
+error                : 
+
+Nonterminals, with rules where they appear
+
+asignacion           : 11
+bloque               : 1
+declaraciones        : 2 4
+empty                : 45
+escritura            : 10
+expresion            : 14 15 18 19 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 40 41 42
+instruccion          : 8 9
+instrucciones        : 2 9 41 42 44
+lista_expr           : 16 17 19
+lista_ids            : 3 4 6
+mientras             : 12
+programa             : 0
+si                   : 13 43
+sino_opcional        : 42
+tipo                 : 3 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . ALGORITMO ID bloque FIN ALGORITMO
+
+    ALGORITMO       shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> ALGORITMO . ID bloque FIN ALGORITMO
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> ALGORITMO ID . bloque FIN ALGORITMO
+    (2) bloque -> . declaraciones INICIO instrucciones FIN
+    (3) declaraciones -> . DEFINIR lista_ids tipo
+    (4) declaraciones -> . declaraciones DEFINIR lista_ids tipo
+
+    DEFINIR         shift and go to state 6
+
+    bloque                         shift and go to state 4
+    declaraciones                  shift and go to state 5
+
+state 4
+
+    (1) programa -> ALGORITMO ID bloque . FIN ALGORITMO
+
+    FIN             shift and go to state 7
+
+
+state 5
+
+    (2) bloque -> declaraciones . INICIO instrucciones FIN
+    (4) declaraciones -> declaraciones . DEFINIR lista_ids tipo
+
+    INICIO          shift and go to state 8
+    DEFINIR         shift and go to state 9
+
+
+state 6
+
+    (3) declaraciones -> DEFINIR . lista_ids tipo
+    (5) lista_ids -> . ID
+    (6) lista_ids -> . lista_ids COMA ID
+
+    ID              shift and go to state 11
+
+    lista_ids                      shift and go to state 10
+
+state 7
+
+    (1) programa -> ALGORITMO ID bloque FIN . ALGORITMO
+
+    ALGORITMO       shift and go to state 12
+
+
+state 8
+
+    (2) bloque -> declaraciones INICIO . instrucciones FIN
+    (8) instrucciones -> . instruccion
+    (9) instrucciones -> . instrucciones instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+    instrucciones                  shift and go to state 13
+    instruccion                    shift and go to state 14
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+
+state 9
+
+    (4) declaraciones -> declaraciones DEFINIR . lista_ids tipo
+    (5) lista_ids -> . ID
+    (6) lista_ids -> . lista_ids COMA ID
+
+    ID              shift and go to state 11
+
+    lista_ids                      shift and go to state 23
+
+state 10
+
+    (3) declaraciones -> DEFINIR lista_ids . tipo
+    (6) lista_ids -> lista_ids . COMA ID
+    (7) tipo -> . ENTERO
+
+    COMA            shift and go to state 25
+    ENTERO          shift and go to state 26
+
+    tipo                           shift and go to state 24
+
+state 11
+
+    (5) lista_ids -> ID .
+
+    COMA            reduce using rule 5 (lista_ids -> ID .)
+    ENTERO          reduce using rule 5 (lista_ids -> ID .)
+
+
+state 12
+
+    (1) programa -> ALGORITMO ID bloque FIN ALGORITMO .
+
+    $end            reduce using rule 1 (programa -> ALGORITMO ID bloque FIN ALGORITMO .)
+
+
+state 13
+
+    (2) bloque -> declaraciones INICIO instrucciones . FIN
+    (9) instrucciones -> instrucciones . instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+    FIN             shift and go to state 27
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+    instruccion                    shift and go to state 28
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+
+state 14
+
+    (8) instrucciones -> instruccion .
+
+    FIN             reduce using rule 8 (instrucciones -> instruccion .)
+    ESCRIBIR        reduce using rule 8 (instrucciones -> instruccion .)
+    ID              reduce using rule 8 (instrucciones -> instruccion .)
+    MIENTRAS        reduce using rule 8 (instrucciones -> instruccion .)
+    SI              reduce using rule 8 (instrucciones -> instruccion .)
+    SINO            reduce using rule 8 (instrucciones -> instruccion .)
+
+
+state 15
+
+    (10) instruccion -> escritura .
+
+    FIN             reduce using rule 10 (instruccion -> escritura .)
+    ESCRIBIR        reduce using rule 10 (instruccion -> escritura .)
+    ID              reduce using rule 10 (instruccion -> escritura .)
+    MIENTRAS        reduce using rule 10 (instruccion -> escritura .)
+    SI              reduce using rule 10 (instruccion -> escritura .)
+    SINO            reduce using rule 10 (instruccion -> escritura .)
+
+
+state 16
+
+    (11) instruccion -> asignacion .
+
+    FIN             reduce using rule 11 (instruccion -> asignacion .)
+    ESCRIBIR        reduce using rule 11 (instruccion -> asignacion .)
+    ID              reduce using rule 11 (instruccion -> asignacion .)
+    MIENTRAS        reduce using rule 11 (instruccion -> asignacion .)
+    SI              reduce using rule 11 (instruccion -> asignacion .)
+    SINO            reduce using rule 11 (instruccion -> asignacion .)
+
+
+state 17
+
+    (12) instruccion -> mientras .
+
+    FIN             reduce using rule 12 (instruccion -> mientras .)
+    ESCRIBIR        reduce using rule 12 (instruccion -> mientras .)
+    ID              reduce using rule 12 (instruccion -> mientras .)
+    MIENTRAS        reduce using rule 12 (instruccion -> mientras .)
+    SI              reduce using rule 12 (instruccion -> mientras .)
+    SINO            reduce using rule 12 (instruccion -> mientras .)
+
+
+state 18
+
+    (13) instruccion -> si .
+
+    FIN             reduce using rule 13 (instruccion -> si .)
+    ESCRIBIR        reduce using rule 13 (instruccion -> si .)
+    ID              reduce using rule 13 (instruccion -> si .)
+    MIENTRAS        reduce using rule 13 (instruccion -> si .)
+    SI              reduce using rule 13 (instruccion -> si .)
+    SINO            reduce using rule 13 (instruccion -> si .)
+
+
+state 19
+
+    (16) escritura -> ESCRIBIR . PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> ESCRIBIR . PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+
+    PARENTESIS_IZQUIERDO shift and go to state 29
+
+
+state 20
+
+    (14) asignacion -> ID . ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> ID . ASIGNAR expresion
+
+    ASIGNAR         shift and go to state 30
+
+
+state 21
+
+    (41) mientras -> MIENTRAS . expresion instrucciones FIN MIENTRAS
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 31
+
+state 22
+
+    (42) si -> SI . expresion ENTONCES instrucciones sino_opcional
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 40
+
+state 23
+
+    (4) declaraciones -> declaraciones DEFINIR lista_ids . tipo
+    (6) lista_ids -> lista_ids . COMA ID
+    (7) tipo -> . ENTERO
+
+    COMA            shift and go to state 25
+    ENTERO          shift and go to state 26
+
+    tipo                           shift and go to state 41
+
+state 24
+
+    (3) declaraciones -> DEFINIR lista_ids tipo .
+
+    INICIO          reduce using rule 3 (declaraciones -> DEFINIR lista_ids tipo .)
+    DEFINIR         reduce using rule 3 (declaraciones -> DEFINIR lista_ids tipo .)
+
+
+state 25
+
+    (6) lista_ids -> lista_ids COMA . ID
+
+    ID              shift and go to state 42
+
+
+state 26
+
+    (7) tipo -> ENTERO .
+
+    INICIO          reduce using rule 7 (tipo -> ENTERO .)
+    DEFINIR         reduce using rule 7 (tipo -> ENTERO .)
+
+
+state 27
+
+    (2) bloque -> declaraciones INICIO instrucciones FIN .
+
+    FIN             reduce using rule 2 (bloque -> declaraciones INICIO instrucciones FIN .)
+
+
+state 28
+
+    (9) instrucciones -> instrucciones instruccion .
+
+    FIN             reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+    ESCRIBIR        reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+    ID              reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+    MIENTRAS        reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+    SI              reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+    SINO            reduce using rule 9 (instrucciones -> instrucciones instruccion .)
+
+
+state 29
+
+    (16) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO . lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO . lista_expr PARENTESIS_DERECHO
+    (18) lista_expr -> . expresion
+    (19) lista_expr -> . lista_expr COMA expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    lista_expr                     shift and go to state 43
+    expresion                      shift and go to state 44
+
+state 30
+
+    (14) asignacion -> ID ASIGNAR . expresion PUNTO_Y_COMA
+    (15) asignacion -> ID ASIGNAR . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 45
+
+state 31
+
+    (41) mientras -> MIENTRAS expresion . instrucciones FIN MIENTRAS
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+    (8) instrucciones -> . instruccion
+    (9) instrucciones -> . instrucciones instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+    instrucciones                  shift and go to state 46
+    instruccion                    shift and go to state 14
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+
+state 32
+
+    (20) expresion -> NUMERO .
+
+    MAS             reduce using rule 20 (expresion -> NUMERO .)
+    MENOS           reduce using rule 20 (expresion -> NUMERO .)
+    POR             reduce using rule 20 (expresion -> NUMERO .)
+    DIVIDIDO        reduce using rule 20 (expresion -> NUMERO .)
+    MODULO          reduce using rule 20 (expresion -> NUMERO .)
+    IGUAL           reduce using rule 20 (expresion -> NUMERO .)
+    DIFERENTE       reduce using rule 20 (expresion -> NUMERO .)
+    MENOR           reduce using rule 20 (expresion -> NUMERO .)
+    MAYOR           reduce using rule 20 (expresion -> NUMERO .)
+    MENOR_IGUAL     reduce using rule 20 (expresion -> NUMERO .)
+    MAYOR_IGUAL     reduce using rule 20 (expresion -> NUMERO .)
+    Y               reduce using rule 20 (expresion -> NUMERO .)
+    O               reduce using rule 20 (expresion -> NUMERO .)
+    ESCRIBIR        reduce using rule 20 (expresion -> NUMERO .)
+    ID              reduce using rule 20 (expresion -> NUMERO .)
+    MIENTRAS        reduce using rule 20 (expresion -> NUMERO .)
+    SI              reduce using rule 20 (expresion -> NUMERO .)
+    ENTONCES        reduce using rule 20 (expresion -> NUMERO .)
+    PARENTESIS_DERECHO reduce using rule 20 (expresion -> NUMERO .)
+    COMA            reduce using rule 20 (expresion -> NUMERO .)
+    PUNTO_Y_COMA    reduce using rule 20 (expresion -> NUMERO .)
+    FIN             reduce using rule 20 (expresion -> NUMERO .)
+    SINO            reduce using rule 20 (expresion -> NUMERO .)
+
+
+state 33
+
+    (21) expresion -> FLOTANTE .
+
+    MAS             reduce using rule 21 (expresion -> FLOTANTE .)
+    MENOS           reduce using rule 21 (expresion -> FLOTANTE .)
+    POR             reduce using rule 21 (expresion -> FLOTANTE .)
+    DIVIDIDO        reduce using rule 21 (expresion -> FLOTANTE .)
+    MODULO          reduce using rule 21 (expresion -> FLOTANTE .)
+    IGUAL           reduce using rule 21 (expresion -> FLOTANTE .)
+    DIFERENTE       reduce using rule 21 (expresion -> FLOTANTE .)
+    MENOR           reduce using rule 21 (expresion -> FLOTANTE .)
+    MAYOR           reduce using rule 21 (expresion -> FLOTANTE .)
+    MENOR_IGUAL     reduce using rule 21 (expresion -> FLOTANTE .)
+    MAYOR_IGUAL     reduce using rule 21 (expresion -> FLOTANTE .)
+    Y               reduce using rule 21 (expresion -> FLOTANTE .)
+    O               reduce using rule 21 (expresion -> FLOTANTE .)
+    ESCRIBIR        reduce using rule 21 (expresion -> FLOTANTE .)
+    ID              reduce using rule 21 (expresion -> FLOTANTE .)
+    MIENTRAS        reduce using rule 21 (expresion -> FLOTANTE .)
+    SI              reduce using rule 21 (expresion -> FLOTANTE .)
+    ENTONCES        reduce using rule 21 (expresion -> FLOTANTE .)
+    PARENTESIS_DERECHO reduce using rule 21 (expresion -> FLOTANTE .)
+    COMA            reduce using rule 21 (expresion -> FLOTANTE .)
+    PUNTO_Y_COMA    reduce using rule 21 (expresion -> FLOTANTE .)
+    FIN             reduce using rule 21 (expresion -> FLOTANTE .)
+    SINO            reduce using rule 21 (expresion -> FLOTANTE .)
+
+
+state 34
+
+    (22) expresion -> CADENA .
+
+    MAS             reduce using rule 22 (expresion -> CADENA .)
+    MENOS           reduce using rule 22 (expresion -> CADENA .)
+    POR             reduce using rule 22 (expresion -> CADENA .)
+    DIVIDIDO        reduce using rule 22 (expresion -> CADENA .)
+    MODULO          reduce using rule 22 (expresion -> CADENA .)
+    IGUAL           reduce using rule 22 (expresion -> CADENA .)
+    DIFERENTE       reduce using rule 22 (expresion -> CADENA .)
+    MENOR           reduce using rule 22 (expresion -> CADENA .)
+    MAYOR           reduce using rule 22 (expresion -> CADENA .)
+    MENOR_IGUAL     reduce using rule 22 (expresion -> CADENA .)
+    MAYOR_IGUAL     reduce using rule 22 (expresion -> CADENA .)
+    Y               reduce using rule 22 (expresion -> CADENA .)
+    O               reduce using rule 22 (expresion -> CADENA .)
+    ESCRIBIR        reduce using rule 22 (expresion -> CADENA .)
+    ID              reduce using rule 22 (expresion -> CADENA .)
+    MIENTRAS        reduce using rule 22 (expresion -> CADENA .)
+    SI              reduce using rule 22 (expresion -> CADENA .)
+    ENTONCES        reduce using rule 22 (expresion -> CADENA .)
+    PARENTESIS_DERECHO reduce using rule 22 (expresion -> CADENA .)
+    COMA            reduce using rule 22 (expresion -> CADENA .)
+    PUNTO_Y_COMA    reduce using rule 22 (expresion -> CADENA .)
+    FIN             reduce using rule 22 (expresion -> CADENA .)
+    SINO            reduce using rule 22 (expresion -> CADENA .)
+
+
+state 35
+
+    (23) expresion -> VERDADERO .
+
+    MAS             reduce using rule 23 (expresion -> VERDADERO .)
+    MENOS           reduce using rule 23 (expresion -> VERDADERO .)
+    POR             reduce using rule 23 (expresion -> VERDADERO .)
+    DIVIDIDO        reduce using rule 23 (expresion -> VERDADERO .)
+    MODULO          reduce using rule 23 (expresion -> VERDADERO .)
+    IGUAL           reduce using rule 23 (expresion -> VERDADERO .)
+    DIFERENTE       reduce using rule 23 (expresion -> VERDADERO .)
+    MENOR           reduce using rule 23 (expresion -> VERDADERO .)
+    MAYOR           reduce using rule 23 (expresion -> VERDADERO .)
+    MENOR_IGUAL     reduce using rule 23 (expresion -> VERDADERO .)
+    MAYOR_IGUAL     reduce using rule 23 (expresion -> VERDADERO .)
+    Y               reduce using rule 23 (expresion -> VERDADERO .)
+    O               reduce using rule 23 (expresion -> VERDADERO .)
+    ESCRIBIR        reduce using rule 23 (expresion -> VERDADERO .)
+    ID              reduce using rule 23 (expresion -> VERDADERO .)
+    MIENTRAS        reduce using rule 23 (expresion -> VERDADERO .)
+    SI              reduce using rule 23 (expresion -> VERDADERO .)
+    ENTONCES        reduce using rule 23 (expresion -> VERDADERO .)
+    PARENTESIS_DERECHO reduce using rule 23 (expresion -> VERDADERO .)
+    COMA            reduce using rule 23 (expresion -> VERDADERO .)
+    PUNTO_Y_COMA    reduce using rule 23 (expresion -> VERDADERO .)
+    FIN             reduce using rule 23 (expresion -> VERDADERO .)
+    SINO            reduce using rule 23 (expresion -> VERDADERO .)
+
+
+state 36
+
+    (24) expresion -> FALSO .
+
+    MAS             reduce using rule 24 (expresion -> FALSO .)
+    MENOS           reduce using rule 24 (expresion -> FALSO .)
+    POR             reduce using rule 24 (expresion -> FALSO .)
+    DIVIDIDO        reduce using rule 24 (expresion -> FALSO .)
+    MODULO          reduce using rule 24 (expresion -> FALSO .)
+    IGUAL           reduce using rule 24 (expresion -> FALSO .)
+    DIFERENTE       reduce using rule 24 (expresion -> FALSO .)
+    MENOR           reduce using rule 24 (expresion -> FALSO .)
+    MAYOR           reduce using rule 24 (expresion -> FALSO .)
+    MENOR_IGUAL     reduce using rule 24 (expresion -> FALSO .)
+    MAYOR_IGUAL     reduce using rule 24 (expresion -> FALSO .)
+    Y               reduce using rule 24 (expresion -> FALSO .)
+    O               reduce using rule 24 (expresion -> FALSO .)
+    ESCRIBIR        reduce using rule 24 (expresion -> FALSO .)
+    ID              reduce using rule 24 (expresion -> FALSO .)
+    MIENTRAS        reduce using rule 24 (expresion -> FALSO .)
+    SI              reduce using rule 24 (expresion -> FALSO .)
+    ENTONCES        reduce using rule 24 (expresion -> FALSO .)
+    PARENTESIS_DERECHO reduce using rule 24 (expresion -> FALSO .)
+    COMA            reduce using rule 24 (expresion -> FALSO .)
+    PUNTO_Y_COMA    reduce using rule 24 (expresion -> FALSO .)
+    FIN             reduce using rule 24 (expresion -> FALSO .)
+    SINO            reduce using rule 24 (expresion -> FALSO .)
+
+
+state 37
+
+    (25) expresion -> ID .
+
+    MAS             reduce using rule 25 (expresion -> ID .)
+    MENOS           reduce using rule 25 (expresion -> ID .)
+    POR             reduce using rule 25 (expresion -> ID .)
+    DIVIDIDO        reduce using rule 25 (expresion -> ID .)
+    MODULO          reduce using rule 25 (expresion -> ID .)
+    IGUAL           reduce using rule 25 (expresion -> ID .)
+    DIFERENTE       reduce using rule 25 (expresion -> ID .)
+    MENOR           reduce using rule 25 (expresion -> ID .)
+    MAYOR           reduce using rule 25 (expresion -> ID .)
+    MENOR_IGUAL     reduce using rule 25 (expresion -> ID .)
+    MAYOR_IGUAL     reduce using rule 25 (expresion -> ID .)
+    Y               reduce using rule 25 (expresion -> ID .)
+    O               reduce using rule 25 (expresion -> ID .)
+    ESCRIBIR        reduce using rule 25 (expresion -> ID .)
+    ID              reduce using rule 25 (expresion -> ID .)
+    MIENTRAS        reduce using rule 25 (expresion -> ID .)
+    SI              reduce using rule 25 (expresion -> ID .)
+    ENTONCES        reduce using rule 25 (expresion -> ID .)
+    PARENTESIS_DERECHO reduce using rule 25 (expresion -> ID .)
+    COMA            reduce using rule 25 (expresion -> ID .)
+    PUNTO_Y_COMA    reduce using rule 25 (expresion -> ID .)
+    FIN             reduce using rule 25 (expresion -> ID .)
+    SINO            reduce using rule 25 (expresion -> ID .)
+
+
+state 38
+
+    (39) expresion -> NEG . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 60
+
+state 39
+
+    (40) expresion -> PARENTESIS_IZQUIERDO . expresion PARENTESIS_DERECHO
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 61
+
+state 40
+
+    (42) si -> SI expresion . ENTONCES instrucciones sino_opcional
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    ENTONCES        shift and go to state 62
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+
+
+state 41
+
+    (4) declaraciones -> declaraciones DEFINIR lista_ids tipo .
+
+    INICIO          reduce using rule 4 (declaraciones -> declaraciones DEFINIR lista_ids tipo .)
+    DEFINIR         reduce using rule 4 (declaraciones -> declaraciones DEFINIR lista_ids tipo .)
+
+
+state 42
+
+    (6) lista_ids -> lista_ids COMA ID .
+
+    COMA            reduce using rule 6 (lista_ids -> lista_ids COMA ID .)
+    ENTERO          reduce using rule 6 (lista_ids -> lista_ids COMA ID .)
+
+
+state 43
+
+    (16) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr . PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr . PARENTESIS_DERECHO
+    (19) lista_expr -> lista_expr . COMA expresion
+
+    PARENTESIS_DERECHO shift and go to state 63
+    COMA            shift and go to state 64
+
+
+state 44
+
+    (18) lista_expr -> expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    PARENTESIS_DERECHO reduce using rule 18 (lista_expr -> expresion .)
+    COMA            reduce using rule 18 (lista_expr -> expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+
+
+state 45
+
+    (14) asignacion -> ID ASIGNAR expresion . PUNTO_Y_COMA
+    (15) asignacion -> ID ASIGNAR expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    PUNTO_Y_COMA    shift and go to state 65
+    FIN             reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    ESCRIBIR        reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    ID              reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    MIENTRAS        reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    SI              reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    SINO            reduce using rule 15 (asignacion -> ID ASIGNAR expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+
+
+state 46
+
+    (41) mientras -> MIENTRAS expresion instrucciones . FIN MIENTRAS
+    (9) instrucciones -> instrucciones . instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+    FIN             shift and go to state 66
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+    instruccion                    shift and go to state 28
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+
+state 47
+
+    (26) expresion -> expresion MAS . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 67
+
+state 48
+
+    (27) expresion -> expresion MENOS . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 68
+
+state 49
+
+    (28) expresion -> expresion POR . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 69
+
+state 50
+
+    (29) expresion -> expresion DIVIDIDO . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 70
+
+state 51
+
+    (30) expresion -> expresion MODULO . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 71
+
+state 52
+
+    (31) expresion -> expresion IGUAL . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 72
+
+state 53
+
+    (32) expresion -> expresion DIFERENTE . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 73
+
+state 54
+
+    (33) expresion -> expresion MENOR . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 74
+
+state 55
+
+    (34) expresion -> expresion MAYOR . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 75
+
+state 56
+
+    (35) expresion -> expresion MENOR_IGUAL . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 76
+
+state 57
+
+    (36) expresion -> expresion MAYOR_IGUAL . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 77
+
+state 58
+
+    (37) expresion -> expresion Y . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 78
+
+state 59
+
+    (38) expresion -> expresion O . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 79
+
+state 60
+
+    (39) expresion -> NEG expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    Y               reduce using rule 39 (expresion -> NEG expresion .)
+    O               reduce using rule 39 (expresion -> NEG expresion .)
+    ESCRIBIR        reduce using rule 39 (expresion -> NEG expresion .)
+    ID              reduce using rule 39 (expresion -> NEG expresion .)
+    MIENTRAS        reduce using rule 39 (expresion -> NEG expresion .)
+    SI              reduce using rule 39 (expresion -> NEG expresion .)
+    ENTONCES        reduce using rule 39 (expresion -> NEG expresion .)
+    PARENTESIS_DERECHO reduce using rule 39 (expresion -> NEG expresion .)
+    COMA            reduce using rule 39 (expresion -> NEG expresion .)
+    PUNTO_Y_COMA    reduce using rule 39 (expresion -> NEG expresion .)
+    FIN             reduce using rule 39 (expresion -> NEG expresion .)
+    SINO            reduce using rule 39 (expresion -> NEG expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+
+  ! MAS             [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MENOS           [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! POR             [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MODULO          [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! IGUAL           [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! DIFERENTE       [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MENOR           [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MAYOR           [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 39 (expresion -> NEG expresion .) ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 61
+
+    (40) expresion -> PARENTESIS_IZQUIERDO expresion . PARENTESIS_DERECHO
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    PARENTESIS_DERECHO shift and go to state 80
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+
+
+state 62
+
+    (42) si -> SI expresion ENTONCES . instrucciones sino_opcional
+    (8) instrucciones -> . instruccion
+    (9) instrucciones -> . instrucciones instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+    instrucciones                  shift and go to state 81
+    instruccion                    shift and go to state 14
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+
+state 63
+
+    (16) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO . PUNTO_Y_COMA
+    (17) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .
+
+    PUNTO_Y_COMA    shift and go to state 82
+    FIN             reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+    ESCRIBIR        reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+    ID              reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+    MIENTRAS        reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+    SI              reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+    SINO            reduce using rule 17 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO .)
+
+
+state 64
+
+    (19) lista_expr -> lista_expr COMA . expresion
+    (20) expresion -> . NUMERO
+    (21) expresion -> . FLOTANTE
+    (22) expresion -> . CADENA
+    (23) expresion -> . VERDADERO
+    (24) expresion -> . FALSO
+    (25) expresion -> . ID
+    (26) expresion -> . expresion MAS expresion
+    (27) expresion -> . expresion MENOS expresion
+    (28) expresion -> . expresion POR expresion
+    (29) expresion -> . expresion DIVIDIDO expresion
+    (30) expresion -> . expresion MODULO expresion
+    (31) expresion -> . expresion IGUAL expresion
+    (32) expresion -> . expresion DIFERENTE expresion
+    (33) expresion -> . expresion MENOR expresion
+    (34) expresion -> . expresion MAYOR expresion
+    (35) expresion -> . expresion MENOR_IGUAL expresion
+    (36) expresion -> . expresion MAYOR_IGUAL expresion
+    (37) expresion -> . expresion Y expresion
+    (38) expresion -> . expresion O expresion
+    (39) expresion -> . NEG expresion
+    (40) expresion -> . PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+
+    NUMERO          shift and go to state 32
+    FLOTANTE        shift and go to state 33
+    CADENA          shift and go to state 34
+    VERDADERO       shift and go to state 35
+    FALSO           shift and go to state 36
+    ID              shift and go to state 37
+    NEG             shift and go to state 38
+    PARENTESIS_IZQUIERDO shift and go to state 39
+
+    expresion                      shift and go to state 83
+
+state 65
+
+    (14) asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .
+
+    FIN             reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+    ESCRIBIR        reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+    ID              reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+    MIENTRAS        reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+    SI              reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+    SINO            reduce using rule 14 (asignacion -> ID ASIGNAR expresion PUNTO_Y_COMA .)
+
+
+state 66
+
+    (41) mientras -> MIENTRAS expresion instrucciones FIN . MIENTRAS
+
+    MIENTRAS        shift and go to state 84
+
+
+state 67
+
+    (26) expresion -> expresion MAS expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    MAS             reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MENOS           reduce using rule 26 (expresion -> expresion MAS expresion .)
+    IGUAL           reduce using rule 26 (expresion -> expresion MAS expresion .)
+    DIFERENTE       reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MENOR           reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MAYOR           reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MENOR_IGUAL     reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MAYOR_IGUAL     reduce using rule 26 (expresion -> expresion MAS expresion .)
+    Y               reduce using rule 26 (expresion -> expresion MAS expresion .)
+    O               reduce using rule 26 (expresion -> expresion MAS expresion .)
+    ESCRIBIR        reduce using rule 26 (expresion -> expresion MAS expresion .)
+    ID              reduce using rule 26 (expresion -> expresion MAS expresion .)
+    MIENTRAS        reduce using rule 26 (expresion -> expresion MAS expresion .)
+    SI              reduce using rule 26 (expresion -> expresion MAS expresion .)
+    ENTONCES        reduce using rule 26 (expresion -> expresion MAS expresion .)
+    PARENTESIS_DERECHO reduce using rule 26 (expresion -> expresion MAS expresion .)
+    COMA            reduce using rule 26 (expresion -> expresion MAS expresion .)
+    PUNTO_Y_COMA    reduce using rule 26 (expresion -> expresion MAS expresion .)
+    FIN             reduce using rule 26 (expresion -> expresion MAS expresion .)
+    SINO            reduce using rule 26 (expresion -> expresion MAS expresion .)
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! POR             [ reduce using rule 26 (expresion -> expresion MAS expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 26 (expresion -> expresion MAS expresion .) ]
+  ! MODULO          [ reduce using rule 26 (expresion -> expresion MAS expresion .) ]
+  ! MAS             [ shift and go to state 47 ]
+  ! MENOS           [ shift and go to state 48 ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 68
+
+    (27) expresion -> expresion MENOS expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    MAS             reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MENOS           reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    IGUAL           reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    DIFERENTE       reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MENOR           reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MAYOR           reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MENOR_IGUAL     reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MAYOR_IGUAL     reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    Y               reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    O               reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    ESCRIBIR        reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    ID              reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    MIENTRAS        reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    SI              reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    ENTONCES        reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    PARENTESIS_DERECHO reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    COMA            reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    PUNTO_Y_COMA    reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    FIN             reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    SINO            reduce using rule 27 (expresion -> expresion MENOS expresion .)
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! POR             [ reduce using rule 27 (expresion -> expresion MENOS expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 27 (expresion -> expresion MENOS expresion .) ]
+  ! MODULO          [ reduce using rule 27 (expresion -> expresion MENOS expresion .) ]
+  ! MAS             [ shift and go to state 47 ]
+  ! MENOS           [ shift and go to state 48 ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 69
+
+    (28) expresion -> expresion POR expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    MAS             reduce using rule 28 (expresion -> expresion POR expresion .)
+    MENOS           reduce using rule 28 (expresion -> expresion POR expresion .)
+    POR             reduce using rule 28 (expresion -> expresion POR expresion .)
+    DIVIDIDO        reduce using rule 28 (expresion -> expresion POR expresion .)
+    MODULO          reduce using rule 28 (expresion -> expresion POR expresion .)
+    IGUAL           reduce using rule 28 (expresion -> expresion POR expresion .)
+    DIFERENTE       reduce using rule 28 (expresion -> expresion POR expresion .)
+    MENOR           reduce using rule 28 (expresion -> expresion POR expresion .)
+    MAYOR           reduce using rule 28 (expresion -> expresion POR expresion .)
+    MENOR_IGUAL     reduce using rule 28 (expresion -> expresion POR expresion .)
+    MAYOR_IGUAL     reduce using rule 28 (expresion -> expresion POR expresion .)
+    Y               reduce using rule 28 (expresion -> expresion POR expresion .)
+    O               reduce using rule 28 (expresion -> expresion POR expresion .)
+    ESCRIBIR        reduce using rule 28 (expresion -> expresion POR expresion .)
+    ID              reduce using rule 28 (expresion -> expresion POR expresion .)
+    MIENTRAS        reduce using rule 28 (expresion -> expresion POR expresion .)
+    SI              reduce using rule 28 (expresion -> expresion POR expresion .)
+    ENTONCES        reduce using rule 28 (expresion -> expresion POR expresion .)
+    PARENTESIS_DERECHO reduce using rule 28 (expresion -> expresion POR expresion .)
+    COMA            reduce using rule 28 (expresion -> expresion POR expresion .)
+    PUNTO_Y_COMA    reduce using rule 28 (expresion -> expresion POR expresion .)
+    FIN             reduce using rule 28 (expresion -> expresion POR expresion .)
+    SINO            reduce using rule 28 (expresion -> expresion POR expresion .)
+
+  ! MAS             [ shift and go to state 47 ]
+  ! MENOS           [ shift and go to state 48 ]
+  ! POR             [ shift and go to state 49 ]
+  ! DIVIDIDO        [ shift and go to state 50 ]
+  ! MODULO          [ shift and go to state 51 ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 70
+
+    (29) expresion -> expresion DIVIDIDO expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    MAS             reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MENOS           reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    POR             reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    DIVIDIDO        reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MODULO          reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    IGUAL           reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    DIFERENTE       reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MENOR           reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MAYOR           reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MENOR_IGUAL     reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MAYOR_IGUAL     reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    Y               reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    O               reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    ESCRIBIR        reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    ID              reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    MIENTRAS        reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    SI              reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    ENTONCES        reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    PARENTESIS_DERECHO reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    COMA            reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    PUNTO_Y_COMA    reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    FIN             reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+    SINO            reduce using rule 29 (expresion -> expresion DIVIDIDO expresion .)
+
+  ! MAS             [ shift and go to state 47 ]
+  ! MENOS           [ shift and go to state 48 ]
+  ! POR             [ shift and go to state 49 ]
+  ! DIVIDIDO        [ shift and go to state 50 ]
+  ! MODULO          [ shift and go to state 51 ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 71
+
+    (30) expresion -> expresion MODULO expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    MAS             reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MENOS           reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    POR             reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    DIVIDIDO        reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MODULO          reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    IGUAL           reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    DIFERENTE       reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MENOR           reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MAYOR           reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MENOR_IGUAL     reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MAYOR_IGUAL     reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    Y               reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    O               reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    ESCRIBIR        reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    ID              reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    MIENTRAS        reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    SI              reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    ENTONCES        reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    PARENTESIS_DERECHO reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    COMA            reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    PUNTO_Y_COMA    reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    FIN             reduce using rule 30 (expresion -> expresion MODULO expresion .)
+    SINO            reduce using rule 30 (expresion -> expresion MODULO expresion .)
+
+  ! MAS             [ shift and go to state 47 ]
+  ! MENOS           [ shift and go to state 48 ]
+  ! POR             [ shift and go to state 49 ]
+  ! DIVIDIDO        [ shift and go to state 50 ]
+  ! MODULO          [ shift and go to state 51 ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 72
+
+    (31) expresion -> expresion IGUAL expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    DIFERENTE       reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    Y               reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    O               reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    ESCRIBIR        reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    ID              reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    MIENTRAS        reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    SI              reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    ENTONCES        reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    PARENTESIS_DERECHO reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    COMA            reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    PUNTO_Y_COMA    reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    FIN             reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    SINO            reduce using rule 31 (expresion -> expresion IGUAL expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+
+  ! MAS             [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MENOS           [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! POR             [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MODULO          [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MENOR           [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MAYOR           [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 31 (expresion -> expresion IGUAL expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 73
+
+    (32) expresion -> expresion DIFERENTE expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    DIFERENTE       reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    Y               reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    O               reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    ESCRIBIR        reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    ID              reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    MIENTRAS        reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    SI              reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    ENTONCES        reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    PARENTESIS_DERECHO reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    COMA            reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    PUNTO_Y_COMA    reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    FIN             reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    SINO            reduce using rule 32 (expresion -> expresion DIFERENTE expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+
+  ! MAS             [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENOS           [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! POR             [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MODULO          [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENOR           [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MAYOR           [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 32 (expresion -> expresion DIFERENTE expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 74
+
+    (33) expresion -> expresion MENOR expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    DIFERENTE       reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MENOR           reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MAYOR           reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MENOR_IGUAL     reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MAYOR_IGUAL     reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    Y               reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    O               reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    ESCRIBIR        reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    ID              reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MIENTRAS        reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    SI              reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    ENTONCES        reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    PARENTESIS_DERECHO reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    COMA            reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    PUNTO_Y_COMA    reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    FIN             reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    SINO            reduce using rule 33 (expresion -> expresion MENOR expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! MAS             [ reduce using rule 33 (expresion -> expresion MENOR expresion .) ]
+  ! MENOS           [ reduce using rule 33 (expresion -> expresion MENOR expresion .) ]
+  ! POR             [ reduce using rule 33 (expresion -> expresion MENOR expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 33 (expresion -> expresion MENOR expresion .) ]
+  ! MODULO          [ reduce using rule 33 (expresion -> expresion MENOR expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 75
+
+    (34) expresion -> expresion MAYOR expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    DIFERENTE       reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MENOR           reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MAYOR           reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MENOR_IGUAL     reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MAYOR_IGUAL     reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    Y               reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    O               reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    ESCRIBIR        reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    ID              reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MIENTRAS        reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    SI              reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    ENTONCES        reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    PARENTESIS_DERECHO reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    COMA            reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    PUNTO_Y_COMA    reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    FIN             reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    SINO            reduce using rule 34 (expresion -> expresion MAYOR expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! MAS             [ reduce using rule 34 (expresion -> expresion MAYOR expresion .) ]
+  ! MENOS           [ reduce using rule 34 (expresion -> expresion MAYOR expresion .) ]
+  ! POR             [ reduce using rule 34 (expresion -> expresion MAYOR expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 34 (expresion -> expresion MAYOR expresion .) ]
+  ! MODULO          [ reduce using rule 34 (expresion -> expresion MAYOR expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 76
+
+    (35) expresion -> expresion MENOR_IGUAL expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    DIFERENTE       reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MENOR           reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MAYOR           reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    Y               reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    O               reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    ESCRIBIR        reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    ID              reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MIENTRAS        reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    SI              reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    ENTONCES        reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    PARENTESIS_DERECHO reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    COMA            reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    PUNTO_Y_COMA    reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    FIN             reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    SINO            reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! MAS             [ reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! MENOS           [ reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! POR             [ reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! MODULO          [ reduce using rule 35 (expresion -> expresion MENOR_IGUAL expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 77
+
+    (36) expresion -> expresion MAYOR_IGUAL expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    IGUAL           reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    DIFERENTE       reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MENOR           reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MAYOR           reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MENOR_IGUAL     reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MAYOR_IGUAL     reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    Y               reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    O               reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    ESCRIBIR        reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    ID              reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MIENTRAS        reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    SI              reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    ENTONCES        reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    PARENTESIS_DERECHO reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    COMA            reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    PUNTO_Y_COMA    reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    FIN             reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    SINO            reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+
+  ! MAS             [ reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! MENOS           [ reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! POR             [ reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! MODULO          [ reduce using rule 36 (expresion -> expresion MAYOR_IGUAL expresion .) ]
+  ! IGUAL           [ shift and go to state 52 ]
+  ! DIFERENTE       [ shift and go to state 53 ]
+  ! MENOR           [ shift and go to state 54 ]
+  ! MAYOR           [ shift and go to state 55 ]
+  ! MENOR_IGUAL     [ shift and go to state 56 ]
+  ! MAYOR_IGUAL     [ shift and go to state 57 ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 78
+
+    (37) expresion -> expresion Y expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    Y               reduce using rule 37 (expresion -> expresion Y expresion .)
+    O               reduce using rule 37 (expresion -> expresion Y expresion .)
+    ESCRIBIR        reduce using rule 37 (expresion -> expresion Y expresion .)
+    ID              reduce using rule 37 (expresion -> expresion Y expresion .)
+    MIENTRAS        reduce using rule 37 (expresion -> expresion Y expresion .)
+    SI              reduce using rule 37 (expresion -> expresion Y expresion .)
+    ENTONCES        reduce using rule 37 (expresion -> expresion Y expresion .)
+    PARENTESIS_DERECHO reduce using rule 37 (expresion -> expresion Y expresion .)
+    COMA            reduce using rule 37 (expresion -> expresion Y expresion .)
+    PUNTO_Y_COMA    reduce using rule 37 (expresion -> expresion Y expresion .)
+    FIN             reduce using rule 37 (expresion -> expresion Y expresion .)
+    SINO            reduce using rule 37 (expresion -> expresion Y expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+
+  ! MAS             [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MENOS           [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! POR             [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MODULO          [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! IGUAL           [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! DIFERENTE       [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MENOR           [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MAYOR           [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 37 (expresion -> expresion Y expresion .) ]
+  ! Y               [ shift and go to state 58 ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 79
+
+    (38) expresion -> expresion O expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    O               reduce using rule 38 (expresion -> expresion O expresion .)
+    ESCRIBIR        reduce using rule 38 (expresion -> expresion O expresion .)
+    ID              reduce using rule 38 (expresion -> expresion O expresion .)
+    MIENTRAS        reduce using rule 38 (expresion -> expresion O expresion .)
+    SI              reduce using rule 38 (expresion -> expresion O expresion .)
+    ENTONCES        reduce using rule 38 (expresion -> expresion O expresion .)
+    PARENTESIS_DERECHO reduce using rule 38 (expresion -> expresion O expresion .)
+    COMA            reduce using rule 38 (expresion -> expresion O expresion .)
+    PUNTO_Y_COMA    reduce using rule 38 (expresion -> expresion O expresion .)
+    FIN             reduce using rule 38 (expresion -> expresion O expresion .)
+    SINO            reduce using rule 38 (expresion -> expresion O expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+
+  ! MAS             [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MENOS           [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! POR             [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MODULO          [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! IGUAL           [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! DIFERENTE       [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MENOR           [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MAYOR           [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MENOR_IGUAL     [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! MAYOR_IGUAL     [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! Y               [ reduce using rule 38 (expresion -> expresion O expresion .) ]
+  ! O               [ shift and go to state 59 ]
+
+
+state 80
+
+    (40) expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .
+
+    MAS             reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MENOS           reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    POR             reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    DIVIDIDO        reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MODULO          reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    IGUAL           reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    DIFERENTE       reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MENOR           reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MAYOR           reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MENOR_IGUAL     reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MAYOR_IGUAL     reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    Y               reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    O               reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    ESCRIBIR        reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    ID              reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    MIENTRAS        reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    SI              reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    ENTONCES        reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    PARENTESIS_DERECHO reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    COMA            reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    PUNTO_Y_COMA    reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    FIN             reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+    SINO            reduce using rule 40 (expresion -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO .)
+
+
+state 81
+
+    (42) si -> SI expresion ENTONCES instrucciones . sino_opcional
+    (9) instrucciones -> instrucciones . instruccion
+    (43) sino_opcional -> . SINO si
+    (44) sino_opcional -> . SINO instrucciones
+    (45) sino_opcional -> . empty
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (46) empty -> .
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+  ! shift/reduce conflict for SINO resolved as shift
+  ! shift/reduce conflict for ESCRIBIR resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for SI resolved as shift
+    SINO            shift and go to state 86
+    FIN             reduce using rule 46 (empty -> .)
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+  ! SINO            [ reduce using rule 46 (empty -> .) ]
+  ! ESCRIBIR        [ reduce using rule 46 (empty -> .) ]
+  ! ID              [ reduce using rule 46 (empty -> .) ]
+  ! MIENTRAS        [ reduce using rule 46 (empty -> .) ]
+  ! SI              [ reduce using rule 46 (empty -> .) ]
+
+    sino_opcional                  shift and go to state 85
+    instruccion                    shift and go to state 28
+    si                             shift and go to state 18
+    empty                          shift and go to state 87
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+
+state 82
+
+    (16) escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .
+
+    FIN             reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+    ESCRIBIR        reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+    ID              reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+    MIENTRAS        reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+    SI              reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+    SINO            reduce using rule 16 (escritura -> ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA .)
+
+
+state 83
+
+    (19) lista_expr -> lista_expr COMA expresion .
+    (26) expresion -> expresion . MAS expresion
+    (27) expresion -> expresion . MENOS expresion
+    (28) expresion -> expresion . POR expresion
+    (29) expresion -> expresion . DIVIDIDO expresion
+    (30) expresion -> expresion . MODULO expresion
+    (31) expresion -> expresion . IGUAL expresion
+    (32) expresion -> expresion . DIFERENTE expresion
+    (33) expresion -> expresion . MENOR expresion
+    (34) expresion -> expresion . MAYOR expresion
+    (35) expresion -> expresion . MENOR_IGUAL expresion
+    (36) expresion -> expresion . MAYOR_IGUAL expresion
+    (37) expresion -> expresion . Y expresion
+    (38) expresion -> expresion . O expresion
+
+    PARENTESIS_DERECHO reduce using rule 19 (lista_expr -> lista_expr COMA expresion .)
+    COMA            reduce using rule 19 (lista_expr -> lista_expr COMA expresion .)
+    MAS             shift and go to state 47
+    MENOS           shift and go to state 48
+    POR             shift and go to state 49
+    DIVIDIDO        shift and go to state 50
+    MODULO          shift and go to state 51
+    IGUAL           shift and go to state 52
+    DIFERENTE       shift and go to state 53
+    MENOR           shift and go to state 54
+    MAYOR           shift and go to state 55
+    MENOR_IGUAL     shift and go to state 56
+    MAYOR_IGUAL     shift and go to state 57
+    Y               shift and go to state 58
+    O               shift and go to state 59
+
+
+state 84
+
+    (41) mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .
+
+    FIN             reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+    ESCRIBIR        reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+    ID              reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+    MIENTRAS        reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+    SI              reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+    SINO            reduce using rule 41 (mientras -> MIENTRAS expresion instrucciones FIN MIENTRAS .)
+
+
+state 85
+
+    (42) si -> SI expresion ENTONCES instrucciones sino_opcional .
+
+    FIN             reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+    ESCRIBIR        reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+    ID              reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+    MIENTRAS        reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+    SI              reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+    SINO            reduce using rule 42 (si -> SI expresion ENTONCES instrucciones sino_opcional .)
+
+
+state 86
+
+    (43) sino_opcional -> SINO . si
+    (44) sino_opcional -> SINO . instrucciones
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+    (8) instrucciones -> . instruccion
+    (9) instrucciones -> . instrucciones instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+
+    SI              shift and go to state 22
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+
+    si                             shift and go to state 88
+    instrucciones                  shift and go to state 89
+    instruccion                    shift and go to state 14
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+
+state 87
+
+    (45) sino_opcional -> empty .
+
+    SINO            reduce using rule 45 (sino_opcional -> empty .)
+    ESCRIBIR        reduce using rule 45 (sino_opcional -> empty .)
+    ID              reduce using rule 45 (sino_opcional -> empty .)
+    MIENTRAS        reduce using rule 45 (sino_opcional -> empty .)
+    SI              reduce using rule 45 (sino_opcional -> empty .)
+    FIN             reduce using rule 45 (sino_opcional -> empty .)
+
+
+state 88
+
+    (43) sino_opcional -> SINO si .
+    (13) instruccion -> si .
+
+  ! reduce/reduce conflict for SINO resolved using rule 13 (instruccion -> si .)
+  ! reduce/reduce conflict for ESCRIBIR resolved using rule 13 (instruccion -> si .)
+  ! reduce/reduce conflict for ID resolved using rule 13 (instruccion -> si .)
+  ! reduce/reduce conflict for MIENTRAS resolved using rule 13 (instruccion -> si .)
+  ! reduce/reduce conflict for SI resolved using rule 13 (instruccion -> si .)
+  ! reduce/reduce conflict for FIN resolved using rule 13 (instruccion -> si .)
+    SINO            reduce using rule 13 (instruccion -> si .)
+    ESCRIBIR        reduce using rule 13 (instruccion -> si .)
+    ID              reduce using rule 13 (instruccion -> si .)
+    MIENTRAS        reduce using rule 13 (instruccion -> si .)
+    SI              reduce using rule 13 (instruccion -> si .)
+    FIN             reduce using rule 13 (instruccion -> si .)
+
+  ! SINO            [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+  ! ESCRIBIR        [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+  ! ID              [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+  ! MIENTRAS        [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+  ! SI              [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+  ! FIN             [ reduce using rule 43 (sino_opcional -> SINO si .) ]
+
+
+state 89
+
+    (44) sino_opcional -> SINO instrucciones .
+    (9) instrucciones -> instrucciones . instruccion
+    (10) instruccion -> . escritura
+    (11) instruccion -> . asignacion
+    (12) instruccion -> . mientras
+    (13) instruccion -> . si
+    (16) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
+    (17) escritura -> . ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO
+    (14) asignacion -> . ID ASIGNAR expresion PUNTO_Y_COMA
+    (15) asignacion -> . ID ASIGNAR expresion
+    (41) mientras -> . MIENTRAS expresion instrucciones FIN MIENTRAS
+    (42) si -> . SI expresion ENTONCES instrucciones sino_opcional
+
+  ! shift/reduce conflict for ESCRIBIR resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for MIENTRAS resolved as shift
+  ! shift/reduce conflict for SI resolved as shift
+    SINO            reduce using rule 44 (sino_opcional -> SINO instrucciones .)
+    FIN             reduce using rule 44 (sino_opcional -> SINO instrucciones .)
+    ESCRIBIR        shift and go to state 19
+    ID              shift and go to state 20
+    MIENTRAS        shift and go to state 21
+    SI              shift and go to state 22
+
+  ! ESCRIBIR        [ reduce using rule 44 (sino_opcional -> SINO instrucciones .) ]
+  ! ID              [ reduce using rule 44 (sino_opcional -> SINO instrucciones .) ]
+  ! MIENTRAS        [ reduce using rule 44 (sino_opcional -> SINO instrucciones .) ]
+  ! SI              [ reduce using rule 44 (sino_opcional -> SINO instrucciones .) ]
+
+    instruccion                    shift and go to state 28
+    escritura                      shift and go to state 15
+    asignacion                     shift and go to state 16
+    mientras                       shift and go to state 17
+    si                             shift and go to state 18
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SINO in state 81 resolved as shift
+WARNING: shift/reduce conflict for ESCRIBIR in state 81 resolved as shift
+WARNING: shift/reduce conflict for ID in state 81 resolved as shift
+WARNING: shift/reduce conflict for MIENTRAS in state 81 resolved as shift
+WARNING: shift/reduce conflict for SI in state 81 resolved as shift
+WARNING: shift/reduce conflict for ESCRIBIR in state 89 resolved as shift
+WARNING: shift/reduce conflict for ID in state 89 resolved as shift
+WARNING: shift/reduce conflict for MIENTRAS in state 89 resolved as shift
+WARNING: shift/reduce conflict for SI in state 89 resolved as shift
+WARNING: reduce/reduce conflict in state 88 resolved using rule (instruccion -> si)
+WARNING: rejected rule (sino_opcional -> SINO si) in state 88
+WARNING: Rule (sino_opcional -> SINO si) is never reduced

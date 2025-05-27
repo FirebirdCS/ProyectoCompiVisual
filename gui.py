@@ -3,8 +3,11 @@ from tkinter import filedialog, ttk, messagebox
 import os
 import io
 import sys
+import webbrowser
 from Lexic_ import lexer
 from Buffer import Buffer
+from Sintax_ import analizar_codigo
+from graphviz import Source
 
 class LexicalGUI(tk.Tk):
     def __init__(self):
@@ -12,6 +15,8 @@ class LexicalGUI(tk.Tk):
         self.title("Analizador Léxico - Interfaz Gráfica")
         self.geometry("1200x600")
         self.errors = []
+        self.syntax_errors = []
+        self.semantic_errors = []
         self.create_widgets()
 
     def create_widgets(self):
@@ -37,10 +42,36 @@ class LexicalGUI(tk.Tk):
             self.tree.heading(col, text=col)
         self.tree.pack(fill=tk.X, expand=False, padx=5, pady=5)
 
-        btn_frame = tk.Frame(right_frame)
-        btn_frame.pack(fill=tk.X, pady=5)
-        ver_err_btn = ttk.Button(btn_frame, text="Ver Errores", command=self.show_errors)
+        # Frame para botones de análisis léxico
+        lex_btn_frame = tk.Frame(right_frame)
+        lex_btn_frame.pack(fill=tk.X, pady=5)
+        ver_err_btn = ttk.Button(lex_btn_frame, text="Ver Errores", command=self.show_errors)
         ver_err_btn.pack(side=tk.LEFT, padx=5)
+
+        # Frame para análisis sintáctico
+        syntax_frame = ttk.Labelframe(right_frame, text="Análisis sintáctico y árbol de derivación")
+        syntax_frame.pack(fill=tk.X, pady=5)
+
+        # Botones de análisis sintáctico
+        syntax_btn_frame = tk.Frame(syntax_frame)
+        syntax_btn_frame.pack(fill=tk.X, pady=5)
+        
+        ver_syntax_err_btn = ttk.Button(syntax_btn_frame, text="Ver Errores Sintácticos", 
+                                      command=self.show_syntax_errors)
+        ver_syntax_err_btn.pack(side=tk.LEFT, padx=5)
+        
+        ver_arbol_btn = ttk.Button(syntax_btn_frame, text="Ver Árbol de Derivación", 
+                                 command=self.open_ast_pdf)
+        ver_arbol_btn.pack(side=tk.LEFT, padx=5)
+
+        # Frame para análisis semántico
+        semantic_frame = ttk.Labelframe(right_frame, text="Análisis semántico")
+        semantic_frame.pack(fill=tk.X, pady=5)
+        semantic_btn_frame = tk.Frame(semantic_frame)
+        semantic_btn_frame.pack(fill=tk.X, pady=5)
+        ver_semantic_err_btn = ttk.Button(semantic_btn_frame, text="Ver Errores Semánticos", 
+                                          command=self.show_semantic_errors)
+        ver_semantic_err_btn.pack(side=tk.LEFT, padx=5)
 
         open_btn = ttk.Button(self, text="Abrir Archivo", command=self.open_file)
         open_btn.pack(side=tk.BOTTOM, pady=10)
@@ -57,6 +88,8 @@ class LexicalGUI(tk.Tk):
         os.chdir(dir_path)
 
         self.errors.clear()
+        self.syntax_errors.clear()
+        self.semantic_errors.clear()
         try:
             with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
                 content = f.read()
@@ -76,12 +109,12 @@ class LexicalGUI(tk.Tk):
             sys.stdout = io.StringIO()
 
             # Tokenización
-            for chunk in buf.load_buffer():
-                lexer.input(chunk)
+            lexer.input(content)
+            tok = lexer.token()
+            while tok:
+                self.tree.insert("", tk.END, values=(tok.type, tok.value, tok.lineno))
                 tok = lexer.token()
-                while tok:
-                    self.tree.insert("", tk.END, values=(tok.type, tok.value, tok.lineno))
-                    tok = lexer.token()
+
 
             err_output = sys.stdout.getvalue()
             sys.stdout = stdout_backup
@@ -91,7 +124,21 @@ class LexicalGUI(tk.Tk):
                 if line.startswith("Error léxico"):
                     self.errors.append(line)
 
-            # Si hay errores, limpiar tabla y avisar
+            # Análisis sintáctico
+            errores_semanticos, ast_root, errores_sintacticos = analizar_codigo(content)
+            self.syntax_errors = errores_sintacticos
+            self.semantic_errors = errores_semanticos
+
+            # Si no hay errores sintácticos y hay un AST, genera el .dot y el PDF
+            if not self.syntax_errors and ast_root is not None:
+                dot_path = 'arbol_output.dot'
+                pdf_path = 'Arbol.pdf'
+                with open(dot_path, 'w', encoding='utf-8') as f:
+                    f.write(ast_root.to_dot())
+                src = Source.from_file(dot_path)
+                src.render(filename='Arbol', format='pdf', cleanup=True)
+
+            # Si hay errores léxicos, limpiar tabla y avisar
             if self.errors:
                 for item in self.tree.get_children():
                     self.tree.delete(item)
@@ -102,7 +149,23 @@ class LexicalGUI(tk.Tk):
                 )
                 return
 
-            messagebox.showinfo("Listo", "Análisis léxico completado sin errores.")
+            # Si hay errores sintácticos, avisar
+            if self.syntax_errors:
+                messagebox.showwarning(
+                    "Errores Sintácticos",
+                    "Se encontraron errores durante el análisis sintáctico. "
+                    "Presiona 'Ver Errores Sintácticos' para más detalles."
+                )
+
+            # Mensaje de análisis semántico
+            if self.semantic_errors:
+                messagebox.showwarning(
+                    "Errores Semánticos",
+                    "Se encontraron errores durante el análisis semántico. "
+                    "Presiona 'Ver Errores Semánticos' para más detalles."
+                )
+            else:
+                messagebox.showinfo("Listo", "Análisis léxico, sintáctico y semántico completado sin errores.")
 
         except Exception as e:
             self.errors.append(str(e))
@@ -120,6 +183,42 @@ class LexicalGUI(tk.Tk):
             for err in self.errors:
                 listbox.insert(tk.END, err)
             listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    def show_syntax_errors(self):
+        win = tk.Toplevel(self)
+        win.title("Errores Sintácticos")
+        win.geometry("200x200")
+        if not self.syntax_errors:
+            lbl = ttk.Label(win, text="No se encontraron errores sintácticos.")
+            lbl.pack(padx=10, pady=10)
+        else:
+            listbox = tk.Listbox(win)
+            for err in self.syntax_errors:
+                listbox.insert(tk.END, err)
+            listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    def show_semantic_errors(self):
+        win = tk.Toplevel(self)
+        win.title("Errores Semánticos")
+        win.geometry("300x200")
+        if not self.semantic_errors:
+            lbl = ttk.Label(win, text="No se encontraron errores semánticos.")
+            lbl.pack(padx=10, pady=10)
+        else:
+            listbox = tk.Listbox(win)
+            for err in self.semantic_errors:
+                listbox.insert(tk.END, err)
+            listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    def open_ast_pdf(self):
+        pdf_path = 'Arbol.pdf'
+        if os.path.exists(pdf_path):
+            webbrowser.open(pdf_path)
+        else:
+            messagebox.showwarning(
+                "Archivo no encontrado",
+                "No se encontró el archivo del árbol de derivación."
+            )
 
 if __name__ == "__main__":
     app = LexicalGUI()

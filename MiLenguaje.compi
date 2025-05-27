@@ -1,21 +1,25 @@
 Algoritmo Prueba
-    Definir a,b,c,d Entero
+    # Variables F y G son el ejemplo de como es el codigo optimizado
+    Definir a,b,c,d,e,f,g Entero
     Inicio
         Escribir ("Hola")
         a = 1
         b = a + 3
         c = b
-        Mientras Verdadero
+        e = 1 * a
+        f = c
+        g = 1 + 0
+        Mientras f == b
             Si c > a Entonces
                 d = 8
                 Escribir ("El valor de d es: ", d)
-            Si No
-                Si a > c Entonces
+            Sino 
+                Si a > c Entonces 
                     d = 5
                     Escribir ("El valor de d es: ", d)
-            Si No
-                d = c
-                Escribir ("El valor de d es: ", d)
+                Sino
+                    d = c
+                    Escribir ("El valor de d es: ", d)
         Fin Mientras
-    Fin
+    Fin 
 Fin Algoritmo

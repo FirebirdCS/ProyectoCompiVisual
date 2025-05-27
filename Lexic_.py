@@ -74,8 +74,9 @@ def t_newline(t):
 
 # Comentarios: ignora desde // hasta fin de línea
 def t_COMMENT(t):
-    r'//.*'
+    r'\#.*'
     pass
+
 
 # Captura errores
 def t_error(t):
