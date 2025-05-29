@@ -3,6 +3,7 @@ import ply.yacc as yacc
 from Lexic_ import tokens, lexer
 from ast_node import ASTNode
 import Semantico
+from codigo_intermedio import limpiar_codigo, nueva_temp, agregar_linea, reiniciar, obtener_codigo
 
 # Listas de errores
 errores_sintacticos = []
@@ -18,14 +19,13 @@ precedence = (
     ('left', 'POR', 'DIVIDIDO', 'MODULO'),
 )
 
-# ------------------------------------------------
-# Producciones con AST + semántico usando expr.semantic
-# ------------------------------------------------
+# --------------------------
+# Producciones combinadas: AST, semántico y código intermedio
+# --------------------------
 
 def p_programa(p):
     'programa : ALGORITMO ID bloque FIN ALGORITMO'
     p[0] = ASTNode('programa', [ASTNode('Algoritmo', value=p[2]), p[3]])
-
 
 
 def p_bloque(p):
@@ -38,15 +38,15 @@ def p_declaraciones(p):
                      | declaraciones DEFINIR lista_ids tipo'''
     if len(p) == 4:
         ids, tipo = p[2], p[3]
-        p[0] = ASTNode('decls', [ASTNode('Definir'), ASTNode('ids', value=ids), ASTNode('tipo', value=tipo)])
+        node = ASTNode('decls', [ASTNode('Definir'), ASTNode('ids', value=ids), ASTNode('tipo', value=tipo)])
     else:
-        prev = p[1]
+        node = p[1]
         ids, tipo = p[3], p[4]
-        prev.add_child(ASTNode('ids', value=ids))
-        prev.add_child(ASTNode('tipo', value=tipo))
-        p[0] = prev
+        node.add_child(ASTNode('ids', value=ids))
+        node.add_child(ASTNode('tipo', value=tipo))
     # Semántico: declarar variables
     Semantico.declarar_variables(ids, tipo)
+    p[0] = node
 
 
 def p_lista_ids(p):
@@ -85,9 +85,12 @@ def p_instruccion(p):
 def p_asignacion(p):
     '''asignacion : ID ASIGNAR expresion PUNTO_Y_COMA
                   | ID ASIGNAR expresion'''
-    var, expr_node = p[1], p[3]
+    var = p[1]
+    expr_node = p[3]
     # Semántico: evalúa expresión y asigna
     Semantico.asignar_expresion(var, expr_node.semantic)
+    # Código intermedio
+    agregar_linea(f"{var} = {expr_node.code}")
     node = ASTNode('asignacion', [ASTNode('id', value=var), expr_node])
     p[0] = node
 
@@ -95,6 +98,9 @@ def p_asignacion(p):
 def p_escritura(p):
     '''escritura : ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO PUNTO_Y_COMA
                   | ESCRIBIR PARENTESIS_IZQUIERDO lista_expr PARENTESIS_DERECHO'''
+    # Código intermedio: imprimir cada expr
+    for expr in p[3].children:
+        agregar_linea(f"print {expr.code}")
     p[0] = ASTNode('escribir', [p[3]])
 
 
@@ -102,10 +108,11 @@ def p_lista_expr(p):
     '''lista_expr : expresion
                   | lista_expr COMA expresion'''
     if len(p) == 2:
-        p[0] = ASTNode('exprs', [p[1]])
+        node = ASTNode('exprs', [p[1]])
     else:
-        p[1].add_child(p[3])
-        p[0] = p[1]
+        node = p[1]
+        node.add_child(p[3])
+    p[0] = node
 
 # ------ Expresiones ------
 
@@ -113,6 +120,7 @@ def p_expresion_num(p):
     'expresion : NUMERO'
     node = ASTNode('numero', value=p[1])
     node.semantic = ('literal', str(p[1]))
+    node.code = str(p[1])
     p[0] = node
 
 
@@ -120,6 +128,7 @@ def p_expresion_flota(p):
     'expresion : FLOTANTE'
     node = ASTNode('flotante', value=p[1])
     node.semantic = ('literal', str(p[1]))
+    node.code = str(p[1])
     p[0] = node
 
 
@@ -128,6 +137,7 @@ def p_expresion_cadena(p):
     val = p[1].strip('"')
     node = ASTNode('cadena', value=val)
     node.semantic = ('literal', f'"{val}"')
+    node.code = f'"{val}"'
     p[0] = node
 
 
@@ -136,6 +146,7 @@ def p_expresion_bool(p):
                  | FALSO'''
     node = ASTNode('booleano', value=p[1])
     node.semantic = ('literal', p[1])
+    node.code = p[1]
     p[0] = node
 
 
@@ -145,6 +156,7 @@ def p_expresion_id(p):
     Semantico.usar_variable(var)
     node = ASTNode('id', value=var)
     node.semantic = ('var', var)
+    node.code = var
     p[0] = node
 
 
@@ -164,19 +176,28 @@ def p_expresion_binaria(p):
                   | expresion O expresion'''
     op = p[2]
     left, right = p[1], p[3]
-    # Semántico: evalúa binop cause errors internally
+    # Semántico
+    semantic = ('binop', op, left.semantic, right.semantic)
+    Semantico.evaluar_expresion(semantic)
+    # Código intermedio
+    temp = nueva_temp()
+    agregar_linea(f"{temp} = {left.code} {op} {right.code}")
     node = ASTNode('op', [left, ASTNode(op), right])
-    node.semantic = ('binop', op, left.semantic, right.semantic)
-    Semantico.evaluar_expresion(node.semantic)
+    node.semantic = semantic
+    node.code = temp
     p[0] = node
 
 
 def p_expresion_neg(p):
     'expresion : NEG expresion'
     expr_node = p[2]
+    semantic = ('not', expr_node.semantic)
+    Semantico.evaluar_expresion(semantic)
+    temp = nueva_temp()
+    agregar_linea(f"{temp} = !{expr_node.code}")
     node = ASTNode('neg', [expr_node])
-    node.semantic = ('not', expr_node.semantic)
-    Semantico.evaluar_expresion(node.semantic)
+    node.semantic = semantic
+    node.code = temp
     p[0] = node
 
 
@@ -188,19 +209,43 @@ def p_expresion_paren(p):
 
 def p_mientras(p):
     'mientras : MIENTRAS expresion instrucciones FIN MIENTRAS'
-    # Semántico: condición debe ser booleano
-    tipo_cond = Semantico.evaluar_expresion(p[2].semantic)
+    cond = p[2]
+    tipo_cond = Semantico.evaluar_expresion(cond.semantic)
     if tipo_cond != 'Booleano':
-        Semantico.evaluar_expresion(p[2].semantic)  # duplicates error
-    p[0] = ASTNode('mientras', [p[2], p[3]])
+        Semantico.evaluar_expresion(cond.semantic)
+    # Generación simplificada: etiquetas y goto
+    start = nueva_temp()
+    end = nueva_temp()
+    agregar_linea(f"L{start}:")
+    agregar_linea(f"ifFalse {cond.code} goto L{end}")
+    for instr in p[3].children:
+        # Asumimos que cada instr tiene code gen líneas ya agregadas
+        pass
+    agregar_linea(f"goto L{start}")
+    agregar_linea(f"L{end}:")
+    p[0] = ASTNode('mientras', [cond, p[3]])
 
 
 def p_si(p):
     'si : SI expresion ENTONCES instrucciones sino_opcional'
-    tipo_cond = Semantico.evaluar_expresion(p[2].semantic)
+    cond = p[2]
+    tipo_cond = Semantico.evaluar_expresion(cond.semantic)
     if tipo_cond != 'Booleano':
-        Semantico.evaluar_expresion(p[2].semantic)
-    node = ASTNode('si', [p[2], p[4]])
+        Semantico.evaluar_expresion(cond.semantic)
+    # Código intermedio simple
+    else_label = nueva_temp()
+    end = nueva_temp()
+    agregar_linea(f"ifFalse {cond.code} goto L{else_label}")
+    # then block lines generated
+    for instr in p[4].children:
+        pass
+    agregar_linea(f"goto L{end}")
+    agregar_linea(f"L{else_label}:")
+    if p[5]:
+        for instr in p[5].children:
+            pass
+    agregar_linea(f"L{end}:")
+    node = ASTNode('si', [cond, p[4]])
     if p[5]: node.add_child(p[5])
     p[0] = node
 
@@ -232,15 +277,16 @@ def p_error(p):
 parser = yacc.yacc()
 
 # Análisis combinado
-# Análisis combinado
 def analizar_codigo(codigo: str):
     """
-    Parsea código, retorna errores_semanticos, AST y errores_sintacticos.
+    Parsea código, retorna errores_semanticos, AST, errores_sintacticos y código intermedio.
     """
     global errores_sintacticos
     Semantico.resetear_semantico()
+    reiniciar()  # limpia código intermedio
     errores_sintacticos = []
     ast_root = parser.parse(codigo, lexer=lexer)
     errores_semanticos = Semantico.obtener_errores()
-    # Devolver en orden: semánticos, AST, sintácticos
-    return errores_semanticos, ast_root, errores_sintacticos
+    codigo_int = obtener_codigo()
+    codigo_int = limpiar_codigo(codigo_int)
+    return errores_semanticos, ast_root, errores_sintacticos, codigo_int

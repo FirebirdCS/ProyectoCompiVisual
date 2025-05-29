@@ -2,6 +2,8 @@ from Lexic_ import lexer
 from Buffer import Buffer
 from Sintax_ import analizar_codigo
 from graphviz import Source
+from codigo_intermedio import obtener_codigo
+from optimizar_codigo import optimizar_codigo
 
 def main():
     buf = Buffer()
@@ -20,7 +22,8 @@ def main():
     # Sintaxis y AST
     lexer.lineno = 1
     print("\nAnálisis sintáctico y generado AST:\n")
-    errores_semanticos, ast_root, errores = analizar_codigo(codigo_fuente)
+    errores_semanticos, ast_root, errores, codigo_intermedio = analizar_codigo(codigo_fuente)
+    codigo_optimizado = optimizar_codigo(codigo_intermedio)
 
     if errores:
         for err in errores:
@@ -47,6 +50,20 @@ def main():
             print(err)
     else:
         print("Análisis semántico exitoso: sin errores")
+
+
+    # Mostrar código intermedio
+    print("\nCódigo Intermedio:\n")
+    intermedio = codigo_intermedio
+    if intermedio:
+        for linea in intermedio:
+            print(linea)
+    else:
+        print("No se generó código intermedio.")
+
+    print("\nCódigo Intermedio Optimizado:\n")
+    for linea in codigo_optimizado:
+        print(linea)
 
     input("\nPresiona Enter para terminar...")
 
