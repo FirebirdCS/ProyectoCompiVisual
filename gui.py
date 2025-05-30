@@ -14,8 +14,8 @@ from optimizar_codigo import optimizar_codigo
 class LexicalGUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Analizador Léxico - Interfaz Gráfica")
-        self.geometry("1200x600")
+        self.title("Compilador Grupo#3 - Interfaz Gráfica")
+        self.geometry("1400x700")
         self.errors = []
         self.syntax_errors = []
         self.semantic_errors = []
@@ -35,7 +35,7 @@ class LexicalGUI(tk.Tk):
         self.text_area.config(state=tk.DISABLED)
 
         # Middle frame for symbol table and analysis
-        middle_frame = ttk.Labelframe(main_paned, text="Tabla de Símbolos")
+        middle_frame = ttk.Labelframe(main_paned, text="Tabla de Símbolos", width=800)
         main_paned.add(middle_frame, weight=1)
 
         columns = ("Tipo", "Valor", "Línea")

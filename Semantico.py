@@ -1,4 +1,3 @@
-
 # Semantico.py
 
 tabla_simbolos = {}  # var_name -> tipo
@@ -23,7 +22,7 @@ def tipo_literal(valor):
     except:
         try:
             float(valor)
-            return 'Real'
+            return 'Decimal'
         except:
             return None
 
@@ -88,7 +87,9 @@ def evaluar_expresion(expr):
 def tipo_compatible(tipo_var, tipo_valor):
     if tipo_var == 'Entero' and tipo_valor == 'Entero':
         return True
-    if tipo_var == 'Real' and tipo_valor in ['Entero', 'Real']:
+    if tipo_var == 'Decimal' and tipo_valor in ['Entero', 'Decimal']:
+        return True
+    if tipo_var == 'Real' and tipo_valor in ['Entero', 'Real', 'Decimal']:
         return True
     if tipo_var == 'Cadena' and tipo_valor == 'Cadena':
         return True

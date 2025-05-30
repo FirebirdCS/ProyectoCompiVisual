@@ -1,6 +1,8 @@
 Algoritmo Prueba
     # Variables F y G son el ejemplo de como es el codigo optimizado
     Definir a,b,c,d,e,f,g Entero
+    Definir i Decimal
+    Definir h Cadena
     Inicio
         Escribir ("Hola")
         a = 1
@@ -9,6 +11,8 @@ Algoritmo Prueba
         e = 1 * a
         f = c
         g = 1 + 0
+        h = "Hola"
+	i = 4.5
         Mientras f == b
             Si c > a Entonces
                 d = 8

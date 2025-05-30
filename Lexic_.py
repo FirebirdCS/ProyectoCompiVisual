@@ -19,6 +19,8 @@ reserved = {
     'Fin':       'FIN',
     'Definir':   'DEFINIR',
     'Entero':    'ENTERO',
+    'Decimal':   'DECIMAL',
+    'Cadena':    'CADENA_TIPO',
     'Inicio':    'INICIO',
     'Escribir':  'ESCRIBIR',
     'Mientras':  'MIENTRAS',
@@ -26,7 +28,7 @@ reserved = {
     'Entonces':  'ENTONCES',
     'Verdadero': 'VERDADERO',
     'Falso':     'FALSO',
-    'Sino':        'SINO'
+    'Sino':      'SINO'
 }
 
 

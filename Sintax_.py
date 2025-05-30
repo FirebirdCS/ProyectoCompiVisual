@@ -60,8 +60,15 @@ def p_lista_ids(p):
 
 
 def p_tipo(p):
-    'tipo : ENTERO'
-    p[0] = 'Entero'
+    '''tipo : ENTERO
+            | DECIMAL
+            | CADENA_TIPO'''
+    if p[1] == 'Entero':
+        p[0] = 'Entero'
+    elif p[1] == 'Decimal':
+        p[0] = 'Decimal'
+    elif p[1] == 'Cadena':
+        p[0] = 'Cadena'
 
 
 def p_instrucciones(p):
