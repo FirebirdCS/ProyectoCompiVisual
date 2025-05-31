@@ -16,15 +16,20 @@ def tipo_literal(valor):
             return 'Cadena'
         elif valor in ['Verdadero', 'Falso']:
             return 'Booleano'
-    try:
-        int(valor)
-        return 'Entero'
-    except:
+        # Check if it's a decimal number
+        if '.' in valor:
+            try:
+                float(valor)
+                return 'Decimal'
+            except:
+                return None
+        # Check if it's an integer
         try:
-            float(valor)
-            return 'Decimal'
+            int(valor)
+            return 'Entero'
         except:
             return None
+    return None
 
 def asignar_variable(var, valor):
     if var not in tabla_simbolos:
@@ -34,6 +39,7 @@ def asignar_variable(var, valor):
         tipo_valor = tipo_literal(valor) if isinstance(valor, str) else None
         if tipo_valor and not tipo_compatible(tipo_var, tipo_valor):
             errores_semanticos.append(f"Error: No se puede asignar un valor de tipo '{tipo_valor}' a la variable '{var}' de tipo '{tipo_var}'.")
+
 def asignar_expresion(var, expr):
     if var not in tabla_simbolos:
         errores_semanticos.append(f"Error: Variable '{var}' no ha sido declarada antes de su uso.")
@@ -50,6 +56,9 @@ def asignar_expresion(var, expr):
 
 def evaluar_expresion(expr):
     if expr[0] == 'literal':
+        # If type is provided in the semantic tuple, use it
+        if len(expr) > 2:
+            return expr[2]
         return tipo_literal(expr[1])
     elif expr[0] == 'var':
         var = expr[1]
@@ -65,11 +74,16 @@ def evaluar_expresion(expr):
             return None
 
         if op in ['+', '-', '*', '/', '%']:
-            if tipo_izq in ['Entero', 'Real'] and tipo_der in ['Entero', 'Real']:
-                return 'Real' if 'Real' in [tipo_izq, tipo_der] else 'Entero'
-            errores_semanticos.append(f"Error: Operación '{op}' no válida entre '{tipo_izq}' y '{tipo_der}'.")
-            return None
+            # For arithmetic operations, both types must be the same
+            if tipo_izq != tipo_der:
+                errores_semanticos.append(f"Error: Operación '{op}' no válida entre tipos diferentes '{tipo_izq}' y '{tipo_der}'.")
+                return None
+            return tipo_izq  # Return the type of either operand since they're the same
         elif op in ['==', '!=', '<', '>', '<=', '>=']:
+            # For comparisons, both types must be the same
+            if tipo_izq != tipo_der:
+                errores_semanticos.append(f"Error: Comparación no válida entre tipos diferentes '{tipo_izq}' y '{tipo_der}'.")
+                return None
             return 'Booleano'
         elif op in ['&&', '||']:
             if tipo_izq == tipo_der == 'Booleano':
@@ -88,8 +102,6 @@ def tipo_compatible(tipo_var, tipo_valor):
     if tipo_var == 'Entero' and tipo_valor == 'Entero':
         return True
     if tipo_var == 'Decimal' and tipo_valor in ['Entero', 'Decimal']:
-        return True
-    if tipo_var == 'Real' and tipo_valor in ['Entero', 'Real', 'Decimal']:
         return True
     if tipo_var == 'Cadena' and tipo_valor == 'Cadena':
         return True

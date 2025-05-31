@@ -126,7 +126,7 @@ def p_lista_expr(p):
 def p_expresion_num(p):
     'expresion : NUMERO'
     node = ASTNode('numero', value=p[1])
-    node.semantic = ('literal', str(p[1]))
+    node.semantic = ('literal', str(p[1]), 'Entero')
     node.code = str(p[1])
     p[0] = node
 
@@ -134,7 +134,7 @@ def p_expresion_num(p):
 def p_expresion_flota(p):
     'expresion : FLOTANTE'
     node = ASTNode('flotante', value=p[1])
-    node.semantic = ('literal', str(p[1]))
+    node.semantic = ('literal', str(p[1]), 'Decimal')
     node.code = str(p[1])
     p[0] = node
 
@@ -167,20 +167,13 @@ def p_expresion_id(p):
     p[0] = node
 
 
-def p_expresion_binaria(p):
-    '''expresion : expresion MAS expresion
-                  | expresion MENOS expresion
-                  | expresion POR expresion
-                  | expresion DIVIDIDO expresion
-                  | expresion MODULO expresion
-                  | expresion IGUAL expresion
-                  | expresion DIFERENTE expresion
-                  | expresion MENOR expresion
-                  | expresion MAYOR expresion
-                  | expresion MENOR_IGUAL expresion
-                  | expresion MAYOR_IGUAL expresion
-                  | expresion Y expresion
-                  | expresion O expresion'''
+def p_expresion_comparacion(p):
+    '''expresion_comparacion : expresion IGUAL expresion
+                            | expresion DIFERENTE expresion
+                            | expresion MENOR expresion
+                            | expresion MAYOR expresion
+                            | expresion MENOR_IGUAL expresion
+                            | expresion MAYOR_IGUAL expresion'''
     op = p[2]
     left, right = p[1], p[3]
     # Semántico
@@ -193,6 +186,32 @@ def p_expresion_binaria(p):
     node.semantic = semantic
     node.code = temp
     p[0] = node
+
+
+def p_expresion_binaria(p):
+    '''expresion : expresion MAS expresion
+                  | expresion MENOS expresion
+                  | expresion POR expresion
+                  | expresion DIVIDIDO expresion
+                  | expresion MODULO expresion
+                  | expresion Y expresion
+                  | expresion O expresion
+                  | expresion_comparacion'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        op = p[2]
+        left, right = p[1], p[3]
+        # Semántico
+        semantic = ('binop', op, left.semantic, right.semantic)
+        Semantico.evaluar_expresion(semantic)
+        # Código intermedio
+        temp = nueva_temp()
+        agregar_linea(f"{temp} = {left.code} {op} {right.code}")
+        node = ASTNode('op', [left, ASTNode(op), right])
+        node.semantic = semantic
+        node.code = temp
+        p[0] = node
 
 
 def p_expresion_neg(p):
@@ -215,7 +234,7 @@ def p_expresion_paren(p):
 # ------ Control de flujo ------
 
 def p_mientras(p):
-    'mientras : MIENTRAS expresion instrucciones FIN MIENTRAS'
+    'mientras : MIENTRAS expresion_comparacion instrucciones FIN MIENTRAS'
     cond = p[2]
     tipo_cond = Semantico.evaluar_expresion(cond.semantic)
     if tipo_cond != 'Booleano':

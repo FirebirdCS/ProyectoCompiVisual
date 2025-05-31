@@ -3,15 +3,15 @@ Algoritmo Prueba
     Definir a,b,c,d,e,f,g Entero
     Definir i Decimal
     Definir h Cadena
-    Inicio
+    Inicio 
         Escribir ("Hola")
-        a = 1
-        b = a + 3
+        a = 0
+        b = a
         c = b
         e = 1 * a
         f = c
-        g = 1 + 0
-        h = "Hola"
+        g = 1 + a * e
+        h = "Hola" 
 	i = 4.5
         Mientras f == b
             Si c > a Entonces
